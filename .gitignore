@@ -1,6 +1,7 @@
 .venv/
 *.txt
 *.pyc
+*.json
 html/dist/
 html/vis-network.min.js
 output.html
