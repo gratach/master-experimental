@@ -2,6 +2,8 @@
 *.txt
 *.pyc
 *.json
+*.svg
+*.pdf
 html/dist/
 html/vis-network.min.js
 output.html
