@@ -4,6 +4,7 @@
 *.json
 *.svg
 *.pdf
+*.html
 html/dist/
 html/vis-network.min.js
 output.html
