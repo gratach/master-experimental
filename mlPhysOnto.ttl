@@ -1,0 +1,222 @@
+@prefix : <http://quantsimulant.de/owl/mlPhysOnto#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# Experiment
+
+:ExperimentSetup a owl:Class .
+
+:ExperimentalDevice a owl:Class .
+
+:ExperimentalDeviceHasSetup a owl:ObjectProperty ;
+    rdfs:domain :ExperimentalDevice ;
+    rdfs:range :ExperimentSetup .
+
+:ConductedExperiment a owl:Class .
+
+:experimentConductedWithDevice a owl:ObjectProperty ;
+    rdfs:domain :ConductedExperiment ;
+    rdfs:range :ExperimentalDevice .
+
+:DateTime a owl:Class .
+
+:experimentConductedAtTime a owl:ObjectProperty ;
+    rdfs:domain :ConductedExperiment ;
+    rdfs:range :DateTime .
+
+# Data
+
+:DataFormat a owl:Class .
+
+:experimentHasDataFormat a owl:ObjectProperty ;
+    rdfs:domain :ConductedExperiment ;
+    rdfs:range :DataFormat .
+
+:experimentInputHasDataFormat a owl:ObjectProperty ;
+    rdfs:domain :ExperimentSetup ;
+    rdfs:range :DataFormat .
+
+:experimentOutputHasData a owl:ObjectProperty ;
+    rdfs:domain :ConductedExperiment ;
+    rdfs:range :Data .
+
+:Data a owl:Class .
+
+:dataHasFormat a owl:ObjectProperty ;
+    rdfs:domain :Data ;
+    rdfs:range :DataFormat .
+
+:experimentInputHasData a owl:ObjectProperty ;
+    rdfs:domain :ConductedExperiment ;
+    rdfs:range :Data .
+
+# Model
+
+:experimentOutputHasDataFormat a owl:ObjectProperty ;
+    rdfs:domain :ExperimentSetup ;
+    rdfs:range :DataFormat .
+
+:ModelOfExperiment a owl:Class .
+
+:isModelOf a owl:ObjectProperty ;
+    rdfs:domain :ModelOfExperiment ;
+    rdfs:range :ExperimentSetup .
+
+:simulationInputHasDataFormat a owl:ObjectProperty ;
+    rdfs:domain :ModelOfExperiment ;
+    rdfs:range :DataFormat .
+
+:simulationOutputHasDataFormat a owl:ObjectProperty ;
+    rdfs:domain :ModelOfExperiment ;
+    rdfs:range :DataFormat .
+
+:SimulatedExperiment a owl:Class .
+
+:simulatedExperimentUsesModel a owl:ObjectProperty ;
+    rdfs:domain :SimulatedExperiment ;
+    rdfs:range :ModelOfExperiment .
+
+:simulationInputHasData a owl:ObjectProperty ;
+    rdfs:domain :SimulatedExperiment ;
+    rdfs:range :Data .
+
+:simulationOutputHasData a owl:ObjectProperty ;
+    rdfs:domain :SimulatedExperiment ;
+    rdfs:range :Data .
+
+# Machine Learning
+
+:UntrainedMLM a owl:Class .
+
+:TrainedMLM a owl:Class .
+
+:MLMTrainingProcess a owl:Class .
+
+:usesInputDataForTraining a owl:ObjectProperty ;
+    rdfs:domain :MLMTrainingProcess ;
+    rdfs:range :Data .
+
+:usesUntrainedMLMForTraining a owl:ObjectProperty ;
+    rdfs:domain :MLMTrainingProcess ;
+    rdfs:range :UntrainedMLM .
+
+:createsTrainedMLM a owl:ObjectProperty ;
+    rdfs:domain :MLMTrainingProcess ;
+    rdfs:range :TrainedMLM .
+
+:TrainedMLMParameters a owl:Class ;
+    rdfs:subClassOf :Data .
+
+:includesTrainedMLMParameters a owl:ObjectProperty ;
+    rdfs:domain :TrainedMLM ;
+    rdfs:range :TrainedMLMParameters .
+
+:TrainedMLMParametersFormat a owl:Class ;
+    rdfs:subClassOf :DataFormat .
+
+:hasTrainedMLMParametersFormat a owl:ObjectProperty ;
+    rdfs:domain :TrainedMLMParameters ;
+    rdfs:range :TrainedMLMParametersFormat .
+
+:ParameterCount a owl:Class .
+
+:hasParameterCount a owl:ObjectProperty ;
+    rdfs:domain :TrainedMLMParametersFormat ;
+    rdfs:range :ParameterCount .
+
+:MLMApplicationProcess a owl:Class .
+
+:usesTrainedMLMForApplication a owl:ObjectProperty ;
+    rdfs:domain :MLMApplicationProcess ;
+    rdfs:range :TrainedMLM .
+
+:usesInputDataForApplication a owl:ObjectProperty ;
+    rdfs:domain :MLMApplicationProcess ;
+    rdfs:range :Data .
+
+:createsMLMOutput a owl:ObjectProperty ;
+    rdfs:domain :MLMApplicationProcess ;
+    rdfs:range :Data .
+
+:UntrainedGenerativeMLM a owl:Class ;
+    rdfs:subClassOf :UntrainedMLM .
+
+:TrainedGenerativeMLM a owl:Class ;
+    rdfs:subClassOf :TrainedMLM .
+
+# Classification
+
+:UntrainedClassifyingMLM a owl:Class ;
+    rdfs:subClassOf :UntrainedMLM .
+
+:TrainedClassifyingMLM a owl:Class ;
+    rdfs:subClassOf :TrainedMLM .
+
+:SignalValueClassificationFunction a owl:Class .
+
+:UntrainedSignalValueClassificationMLM a owl:Class ;
+    rdfs:subClassOf :UntrainedClassifyingMLM .
+
+:TrainedSignalValueClassificationMLM a owl:Class ;
+    rdfs:subClassOf :TrainedClassifyingMLM ;
+    rdfs:subClassOf :SignalValueClassificationFunction .
+
+:PhysicsBasedSignalValueClassificationFunction a owl:Class ;
+    rdfs:subClassOf :SignalValueClassificationFunction .
+
+:SignalValueClassificationApproximation a owl:Class .
+
+:functionUsedForSignalValueClassification a owl:ObjectProperty ;
+    rdfs:domain :SignalValueClassificationApproximation ;
+    rdfs:range :SignalValueClassificationFunction .
+
+:targetSignalValueClassificationFunction a owl:ObjectProperty ;
+    rdfs:domain :SignalValueClassificationApproximation ;
+    rdfs:range :PhysicsBasedSignalValueClassificationFunction .
+
+:R30Evaluation a owl:Class .
+
+:isR30EvaluationOf a owl:ObjectProperty ;
+    rdfs:domain :R30Evaluation ;
+    rdfs:range :SignalValueClassificationApproximation .
+
+:datasetUsedForR30Evaluation a owl:ObjectProperty ;
+    rdfs:domain :R30Evaluation ;
+    rdfs:range :Data .
+
+:R30Value a owl:Class .
+
+:hasR30Value a owl:ObjectProperty ;
+    rdfs:domain :R30Evaluation ;
+    rdfs:range :R30Value .
+
+# Publication
+
+:Paper a owl:Class .
+
+:mentionedInPaper a owl:ObjectProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Paper .
+
+# Metadata
+
+:Name a owl:Class .
+
+:hasName a owl:ObjectProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Name .
+
+:Description a owl:Class .
+
+:hasDescription a owl:ObjectProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range :Description .
+
+:hasValue a owl:DatatypeProperty ;
+    rdfs:domain owl:Thing ;
+    rdfs:range xsd:string .
+
+
+
+
+
